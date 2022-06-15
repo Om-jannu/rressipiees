@@ -1,5 +1,8 @@
+import { Splide , SplideSlide } from "@splidejs/react-splide";
+import '@splidejs/react-splide/css';
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
+
 
 function Popular() {
   const [popular, setPopular] = useState([]);
@@ -11,36 +14,30 @@ function Popular() {
   const getpopular = async () => {
     const RECIPIE_APIKEY = "98a4bd55f2bf43ab9629dd5ccd6cf09e";
     const api = await fetch(
-      `https://api.spoonacular.com/recipes/random?apiKey=${RECIPIE_APIKEY}&number=20`
+      `https://api.spoonacular.com/recipes/random?apiKey=${RECIPIE_APIKEY}&number=9`
     );
     const data = await api.json();
     setPopular(data.recipes);
   };
   return (
     <div>
-      <Wrapper>
+      <div>
         <h3>Popular picks</h3>
+        <Splide options={{perPage : 4,}}>
         {popular.map((recipe) => {
           return(
-            <div key={recipe.id}>
-            <p>{recipe.title}</p>
-            <img src={recipe.image} alt={recipe.title} />
-            </div>
+            <SplideSlide> 
+              <div key={recipe.id}>
+                <p>{recipe.title}</p>
+                <img src={recipe.image} alt={recipe.title} />
+              </div>
+            </SplideSlide>
           );
         })}
-      </Wrapper>
+        </Splide>
+      </div>
     </div>
   );
 }
-
-const Wrapper = styled.div`
-  margin: 4rem 0;
-`;
-
-const Card = styled.div`
-  min-height:4rem;
-  border-radius:5rem;
-  overflow:hidden;
-`;
 
 export default Popular;
